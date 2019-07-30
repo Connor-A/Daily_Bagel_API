@@ -1,8 +1,8 @@
 package com.dailybagel.article.resources;
 
-public class ArticleViewModel {
+public class ArticleModelView {
 
-	public ArticleViewModel() {
+	public ArticleModelView() {
 		// TODO Auto-generated constructor stub
 	}
 
