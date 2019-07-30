@@ -3,9 +3,13 @@ package com.dailybagel.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import com.dailybagel.user.resources.User;
+import com.dailybagel.user.resources.UserService;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,22 +22,102 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @CrossOrigin
 @Controller
 public class UserController {
-
+	UserService us;
+	
 	public UserController() {
-		// TODO Auto-generated constructor stub
+		us = new UserService();
 	}
 
-	@RequestMapping("/dummy")
-	public void dummy(HttpServletRequest request, HttpServletResponse response) 
+	@RequestMapping("/getAllUsers")
+	public void getAllUsers(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		PrintWriter out = response.getWriter();
+		Gson gson = new Gson();
+		out.println(gson.toJson(this.us.getAllUsers()));
+	}
+	
+	@RequestMapping("/getUserPage")
+	public void getUserPage(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 
-		  int pageNumber = Integer.valueOf(request.getParameter("pageNumber"));
-		  int itemsPerPage = Integer.valueOf(request.getParameter("itemsPerPage"));
-		  PrintWriter out = response.getWriter();
-	      Gson gson = new Gson();
-	      //out.println(gson.toJson(this.it.getPage(pageNumber,itemsPerPage)));
+		int pageNumber = Integer.valueOf(request.getParameter("pageNumber"));
+		int itemsPerPage = Integer.valueOf(request.getParameter("itemsPerPage"));
+		PrintWriter out = response.getWriter();
+	    Gson gson = new Gson();
+	    out.println(gson.toJson(this.us.getUserPage(pageNumber,itemsPerPage)));
+	}
+	
+	@RequestMapping("/getUser")
+	public void getItem(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		
+		int userId = Integer.valueOf(request.getParameter("userId"));
+		PrintWriter out = response.getWriter();
+		Gson gson = new Gson();
+		out.println(gson.toJson(this.us.getUser(userId)));
+	}
+		
+	@RequestMapping("/addUser")
+	public void addUser(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		   
+		Gson gson = new Gson();
+	    JsonParser parser = new JsonParser();
+	    JsonObject obj = (JsonObject) parser.parse(request.getReader());
+	        
+	    User user = gson.fromJson(obj, new User().getClass());
+	    us.addUser(user);
+	    
+	}
+	
+	@RequestMapping("/deleteUser")
+	public void deleteUser(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		   
+		Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject obj = (JsonObject) parser.parse(request.getReader());
+        
+        User user = gson.fromJson(obj, new User().getClass());
+        us.deleteUser(user);
+	}
+	
+	@RequestMapping("/updateUser")
+	public void updateUser(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		   
+		Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject obj = (JsonObject) parser.parse(request.getReader());
+
+        User user = gson.fromJson(obj, new User().getClass());
+        us.updateUser(user);
 	}
 
+	@RequestMapping("/updateUserPassword")
+	public void updateUserPassword(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		   
+		Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject obj = (JsonObject) parser.parse(request.getReader());
+
+        User user = gson.fromJson(obj, new User().getClass());
+        us.updateUser(user);
+	}
+	
+	@RequestMapping("/updateUserRole")
+	public void updateUserRole(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+		   
+		Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonObject obj = (JsonObject) parser.parse(request.getReader());
+
+        User user = gson.fromJson(obj, new User().getClass());
+        us.updateUser(user);
+	}
 	
 }
 

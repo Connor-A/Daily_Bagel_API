@@ -22,7 +22,13 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>dailybagel</servlet-name>
-        <url-pattern>/dummy</url-pattern>
-        
+    	    <url-pattern>/getAllUsers</url-pattern>
+			<url-pattern>/getUserPag</url-pattern>
+			<url-pattern>/getUser</url-pattern>
+			<url-pattern>/addUser</url-pattern>
+			<url-pattern>/deleteUser</url-pattern>
+			<url-pattern>/updateUser</url-pattern>
+			<url-pattern>/updateUserPassword</url-pattern>
+			<url-pattern>/updateUserRole</url-pattern>
     </servlet-mapping>  
 </web-app>
