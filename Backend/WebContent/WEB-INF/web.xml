@@ -12,7 +12,7 @@
   <servlet>
         <servlet-name>dailybagel</servlet-name>
         <servlet-class>
-            org.springframework.web.servlet.DispatcherServlet
+             org.springframework.web.servlet.DispatcherServlet
         </servlet-class>
         <init-param>
             <param-name>dispatchOptionsRequest</param-name>
@@ -22,6 +22,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>dailybagel</servlet-name>
+        <url-pattern>/dummy</url-pattern>
         
     </servlet-mapping>  
 </web-app>
