@@ -36,9 +36,6 @@ public class Article implements Serializable{
 	@Column(name = "views", unique = false, nullable = false)
 	public int views;
 	
-	@Column(name = "role", unique = false, nullable = false)
-	public String role;
-	
 	@Column(name = "authorId", unique = false, nullable = false)
 	public String authorId;
 		
