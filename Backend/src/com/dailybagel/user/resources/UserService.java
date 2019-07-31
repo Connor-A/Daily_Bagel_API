@@ -14,14 +14,7 @@ public class UserService {
 	Session session;
 
 	public UserService() {
-		try {
 		this.session = DBHandler.getSessionFactory().openSession();
-		}
-		catch ( Throwable e)
-		{
-			System.out.println("HELLO, HERE IS MY ERROR!");
-			System.out.println(e);
-		}
 	}
 		
 	public List<User> getAllUsers() {
