@@ -21,7 +21,7 @@ public class Article implements Serializable{
 
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "articleID", unique = true, nullable = false)
+    @Column(name = "articleId", unique = true, nullable = false)
 	public int articleId;
 	
 	@Column(name = "name", unique = false, nullable = false)
@@ -39,8 +39,8 @@ public class Article implements Serializable{
 	@Column(name = "role", unique = false, nullable = false)
 	public String role;
 	
-	@Column(name = "authorID", unique = false, nullable = false)
-	public String authorID;
+	@Column(name = "authorId", unique = false, nullable = false)
+	public String authorId;
 		
 	
 	public Article(){

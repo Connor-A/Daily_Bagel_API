@@ -40,16 +40,22 @@ public class UserController {
 	@RequestMapping("/getUserPage")
 	public void getUserPage(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
-
-		int pageNumber = Integer.valueOf(request.getParameter("pageNumber"));
-		int itemsPerPage = Integer.valueOf(request.getParameter("itemsPerPage"));
+		int pageNumber;
+		int itemsPerPage;
+		try {
+			 pageNumber = Integer.valueOf(request.getParameter("pageNumber"));
+			 itemsPerPage = Integer.valueOf(request.getParameter("itemsPerPage"));
+		} catch (NumberFormatException e) {
+			pageNumber = 0;
+			itemsPerPage = 5;
+		}
 		PrintWriter out = response.getWriter();
 	    Gson gson = new Gson();
 	    out.println(gson.toJson(this.us.getUserPage(pageNumber,itemsPerPage)));
 	}
 	
 	@RequestMapping("/getUser")
-	public void getItem(HttpServletRequest request, HttpServletResponse response) 
+	public void getUser(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		
 		int userId = Integer.valueOf(request.getParameter("userId"));
@@ -104,7 +110,7 @@ public class UserController {
         JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
         User user = gson.fromJson(obj, new User().getClass());
-        us.updateUser(user);
+        us.updatePassword(user);
 	}
 	
 	@RequestMapping("/updateUserRole")
@@ -116,7 +122,7 @@ public class UserController {
         JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
         User user = gson.fromJson(obj, new User().getClass());
-        us.updateUser(user);
+        us.updateRole(user);
 	}
 	
 }

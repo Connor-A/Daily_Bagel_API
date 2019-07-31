@@ -1,9 +1,9 @@
 package com.dailybagel.article.resources;
 
-public class ArticleModelView {
+import java.util.List;
 
-	public ArticleModelView() {
-		// TODO Auto-generated constructor stub
-	}
+public class ArticleModelView {
+	List<Article> articles;
+	int maxPageSize;
 
 }

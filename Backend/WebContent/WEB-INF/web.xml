@@ -30,5 +30,16 @@
 			<url-pattern>/updateUser</url-pattern>
 			<url-pattern>/updateUserPassword</url-pattern>
 			<url-pattern>/updateUserRole</url-pattern>
+			
+			
+    	    <url-pattern>/getAllArticles</url-pattern>
+			<url-pattern>/getArticlePage</url-pattern>
+			<url-pattern>/getFeaturedArticles</url-pattern>
+			<url-pattern>/getArticle</url-pattern>
+			<url-pattern>/addArticle</url-pattern>
+			<url-pattern>/deleteArticle</url-pattern>
+			<url-pattern>/updateArticle</url-pattern>
+			<url-pattern>/updateArticleViews</url-pattern>
+			<url-pattern>/updateAritcleAuthor</url-pattern>
     </servlet-mapping>  
 </web-app>

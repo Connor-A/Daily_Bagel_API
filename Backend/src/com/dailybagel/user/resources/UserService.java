@@ -52,10 +52,10 @@ public class UserService {
 	}
 	
 	public void deleteUser(User user) {
-		Object i = session.load(User.class, user.userId);
-		if (i != null) {
+		Object u = session.load(User.class, user.userId);
+		if (u != null) {
 			Transaction tx = session.beginTransaction();
-			session.delete(i);
+			session.delete(u);
 		    tx.commit();
 		}
 		session.flush();
