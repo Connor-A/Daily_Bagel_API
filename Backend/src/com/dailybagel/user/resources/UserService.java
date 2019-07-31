@@ -74,7 +74,7 @@ public class UserService {
 		session.flush();
 	}
 	
-	public void updatePassword(User user) {
+	public void updateUserPassword(User user) {
 		User u = (User)session.load(User.class, user.userId);
 		if (u != null) {
 			Transaction tx = session.beginTransaction();
@@ -85,7 +85,7 @@ public class UserService {
 		session.flush();
 	}
 	
-	public void updateRole(User user) {
+	public void updateUserRole(User user) {
 		User u = (User)session.load(User.class, user.userId);
 		if (u != null) {
 			Transaction tx = session.beginTransaction();

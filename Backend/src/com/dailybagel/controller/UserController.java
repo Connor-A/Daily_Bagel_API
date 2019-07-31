@@ -110,7 +110,7 @@ public class UserController {
         JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
         User user = gson.fromJson(obj, new User().getClass());
-        us.updatePassword(user);
+        us.updateUserPassword(user);
 	}
 	
 	@RequestMapping("/updateUserRole")
@@ -122,7 +122,7 @@ public class UserController {
         JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
         User user = gson.fromJson(obj, new User().getClass());
-        us.updateRole(user);
+        us.updateUserRole(user);
 	}
 	
 }
