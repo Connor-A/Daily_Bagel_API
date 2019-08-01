@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { AppComponent } from './app.component';
 import { FeaturedContentComponent } from './components/featured-content/featured-content.component';
+import { MaterialModule } from './material/material.module';
 //import { StoryComponent } from './objects/story/story.component';
 
 @NgModule({
@@ -13,7 +14,8 @@ import { FeaturedContentComponent } from './components/featured-content/featured
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]
