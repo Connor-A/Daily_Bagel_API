@@ -16,7 +16,6 @@ public class DBHandler
     
     static {
     	try {
-    		Properties prop = new Properties();
     		Properties prop= new Properties();
             prop.setProperty("hibernate.connection.url", "jdbc:mysql://us-cdbr-iron-east-02.cleardb.net/heroku_d80dc7ab129a7ce?reconnect=true");
             prop.setProperty("hibernate.connection.username", "baaa95d23db726");
