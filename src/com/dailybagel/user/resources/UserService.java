@@ -44,7 +44,7 @@ public class UserService {
 		return user;
 	}
 
-	public void addUser(User user) {
+	public void addUser(User user) {		
 		Transaction tx = session.beginTransaction();
 		session.save(user);
 		tx.commit();
