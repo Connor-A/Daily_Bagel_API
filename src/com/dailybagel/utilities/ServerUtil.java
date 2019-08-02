@@ -15,7 +15,7 @@ public class ServerUtil {
 
 		while(!ping) {
 			try {
-				session.createQuery("from Article").list().size();
+				session.createQuery("from Article");
 				ping = true;
 			}
 			catch (EOFException e){
