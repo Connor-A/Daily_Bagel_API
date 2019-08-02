@@ -1,11 +1,9 @@
 package com.DatabaseHandler;
 
-import java.io.File;
 import java.util.Properties;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
-import org.hibernate.cfg.Configuration;
  
 import com.dailybagel.article.resources.Article;
 import com.dailybagel.user.resources.User;
