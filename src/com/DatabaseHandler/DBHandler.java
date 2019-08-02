@@ -24,8 +24,8 @@ public class DBHandler
             prop.setProperty("dialect", "org.hibernate.dialect.MySQLInnoDBDialect");
             prop.setProperty("hibernate.c3p0.min_size", "5");
             prop.setProperty("hibernate.c3p0.max_size", "200");
-            prop.setProperty("hibernate.c3p0.timeout", "3000");
-            prop.setProperty("hibernate.c3p0.max_statements","5");
+            prop.setProperty("hibernate.c3p0.timeout", "9010");
+            //prop.setProperty("hibernate.c3p0.max_statements","5");
             prop.setProperty("hibernate.c3p0.idle_test_period","3000");
             sessionFactory = new AnnotationConfiguration()
             				.addPackage("com.dailybagel.user.resources")
