@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.DatabaseHandler.DBHandler;
+import com.dailybagel.user.resources.User;
 
 
 
@@ -51,11 +52,15 @@ public class ArticleService {
 		return Article;
 	}
 
-	public void addArticle(Article Article) {
+	public void addArticle(Article article) {
 		Transaction tx = session.beginTransaction();
-		session.save(Article);
-		tx.commit();
-		session.flush();
+		if(!this.articleExists(article))
+		{
+			session.save(article);
+			tx.commit();
+			session.flush();
+		}
+		else { return; }
 	}
 	
 	public void deleteArticle(Article article) {
@@ -102,5 +107,12 @@ public class ArticleService {
 		session.flush();
 	}
 	
+	private boolean articleExists(Article article) {
+		Object u = session.load(User.class, article.articleId);
+		if (u == null)
+			return false;
+		else
+			return true;
+	}
 	
 }

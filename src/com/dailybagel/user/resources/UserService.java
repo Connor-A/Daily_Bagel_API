@@ -46,9 +46,13 @@ public class UserService {
 
 	public void addUser(User user) {		
 		Transaction tx = session.beginTransaction();
-		session.save(user);
-		tx.commit();
-		session.flush();
+		if(!this.userExists(user))
+		{
+			session.save(user);
+			tx.commit();
+			session.flush();
+		}
+		else {return;}
 	}
 	
 	public void deleteUser(User user) {
@@ -94,6 +98,14 @@ public class UserService {
 		    tx.commit();
 		}
 		session.flush();
+	}
+	
+	private boolean userExists(User user) {
+		Object u = session.load(User.class, user.userId);
+		if (u == null)
+			return false;
+		else
+			return true;
 	}
 	
 	
