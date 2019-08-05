@@ -39,6 +39,7 @@ public class UserController {
 			try {
 				out.println(gson.toJson(this.us.getAllUsers()));
 			} catch (Throwable e) {
+				System.out.println("Failed to Connect");
 				i--;
 				Thread.sleep(1000);
 				continue;
