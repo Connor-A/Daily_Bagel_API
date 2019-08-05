@@ -39,7 +39,7 @@ public class UserController {
 			try {
 				out.println(gson.toJson(this.us.getAllUsers()));
 			} catch (Throwable e) {
-				System.out.println("Failed to Connect");
+				System.out.println("Failed to Connect" + e);
 				i--;
 				Thread.sleep(1000);
 				continue;
@@ -84,7 +84,12 @@ public class UserController {
 		JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
 		User user = gson.fromJson(obj, new User().getClass());
-		us.addUser(user);
+
+		if (us.getUser(user.userId) == null) {
+			us.addUser(user);
+		} else {
+			response.sendError(HttpServletResponse.SC_CONFLICT, "User already exists.");
+		}
 
 	}
 
@@ -97,7 +102,11 @@ public class UserController {
 		JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
 		User user = gson.fromJson(obj, new User().getClass());
-		us.deleteUser(user);
+		if (us.getUser(user.userId) != null) {
+			us.deleteUser(user);
+		} else {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "That user does not exist");
+		}
 	}
 
 	@RequestMapping("/updateUser")
