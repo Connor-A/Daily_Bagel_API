@@ -33,7 +33,7 @@ public class DBHandler
                             .addProperties(prop)                  
                             .buildSessionFactory();
             
-        } catch (Throwable ex) {
+        } catch (Exception ex) {
             System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);
         }
