@@ -35,17 +35,17 @@ public class UserController {
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		int i = 10;
-		while (i >= 0) {
-			try {
+		//while (i >= 0) {
+			//try {
 				out.println(gson.toJson(this.us.getAllUsers()));
-			} catch (Throwable e) {
-				System.out.println("Failed to Connect" + e);
-				i--;
-				Thread.sleep(1000);
-				continue;
-			}
-			break;
-		}
+			//} catch (Throwable e) {
+				//System.out.println("Failed to Connect" + e);
+				//i--;
+				//Thread.sleep(1000);
+				//continue;
+			//}
+			//break;
+		//}
 	}
 
 	@RequestMapping("/getUserPage")
