@@ -6,11 +6,8 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import com.DatabaseHandler.DBHandler;
+import com.dailybagel.DatabaseHandler.DBHandler;
 
-import java.math.BigInteger;
-import java.security.MessageDigest; 
-import java.security.NoSuchAlgorithmException;
 
 
 public class UserService {
@@ -48,15 +45,10 @@ public class UserService {
 	}
 
 	public void addUser(User user) {
-		user.password = getSha(user.password);
 		Transaction tx = session.beginTransaction();
-		if(!this.userExists(user))
-		{
-			session.save(user);
-			tx.commit();
-			session.flush();
-		}
-		else {return;}
+		session.save(user);
+		tx.commit();
+		session.flush();
 	}
 	
 	public void deleteUser(User user) {
@@ -83,7 +75,6 @@ public class UserService {
 	}
 	
 	public void updateUserPassword(User user) {
-		user.password = getSha(user.password);
 		User u = (User)session.load(User.class, user.userId);
 		if (u != null) {
 			Transaction tx = session.beginTransaction();
@@ -105,51 +96,5 @@ public class UserService {
 		session.flush();
 	}
 	
-	private boolean userExists(User user) {
-		Object u = session.load(User.class, user.userId);
-		if (u == null)
-			return false;
-		else
-			return true;
-	}
 	
-	private String getSha(String password)
-	{
-        try { 
-            MessageDigest md = MessageDigest.getInstance("SHA-256"); 
-            byte[] messageDigest = md.digest(password.getBytes());  
-            BigInteger no = new BigInteger(1, messageDigest); 
-  
-            // Convert message digest into hex value 
-            String hashtext = no.toString(16); 
-  
-            while (hashtext.length() < 32) { 
-                hashtext = "0" + hashtext; 
-            } 
-  
-            return hashtext; 
-        } 
-  
-        // For specifying wrong message digest algorithms 
-        catch (NoSuchAlgorithmException e) { 
-            System.out.println("Exception thrown"
-                               + " for incorrect algorithm: " + e); 
-  
-            return null; 
-        } 
-    }
-	
-	private boolean isSignInValid(User user) {
-		user.password = getSha(user.password);
-		User u = (User)session.load(User.class, user.userId);
-		if (u != null) {
-			if(u.password.equals(user.password)) {
-				session.flush();
-				return true;
-			}
-		}
-		session.flush();
-		return false;
-	}
-		
 }
