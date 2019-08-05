@@ -26,11 +26,11 @@ public class DBHandler
             //prop.setProperty("hibernate.c3p0.max_statements","5");
             //prop.setProperty("hibernate.c3p0.idle_test_period","3000");
             sessionFactory = new AnnotationConfiguration()
-            				//.addPackage("com.dailybagel.user.resources")
-            				//.addPackage("com.dailybagel.article.resources")
-            				//.addAnnotatedClass(User.class)
-            				//.addAnnotatedClass(Article.class)
-                            //.addProperties(prop)                  
+            				.addPackage("com.dailybagel.user.resources")
+            				.addPackage("com.dailybagel.article.resources")
+            				.addAnnotatedClass(User.class)
+            				.addAnnotatedClass(Article.class)
+                            .addProperties(prop)                  
                             .buildSessionFactory();
             
         } catch (Exception ex) {
