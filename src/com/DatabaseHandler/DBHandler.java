@@ -27,9 +27,9 @@ public class DBHandler
             //prop.setProperty("hibernate.c3p0.idle_test_period","3000");
             sessionFactory = new AnnotationConfiguration()
             				.addPackage("com.dailybagel.user.resources")
-            				.addPackage("com.dailybagel.article.resources")
+            				//.addPackage("com.dailybagel.article.resources")
             				.addAnnotatedClass(User.class)
-            				.addAnnotatedClass(Article.class)
+            				//.addAnnotatedClass(Article.class)
                             .addProperties(prop)                  
                             .buildSessionFactory();
             
