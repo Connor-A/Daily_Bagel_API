@@ -18,6 +18,9 @@ public class UserService {
 	}
 		
 	public List<User> getAllUsers() {
+		while (!session.isConnected()) {
+			System.out.println("Trying Connection");
+		}
 		List<User> list = session.createQuery("from User").list();
 		return list;
 	}
@@ -40,6 +43,7 @@ public class UserService {
 	}
 	
 	public User getUser(int userId) {
+
 		User user = (User) session.get(User.class, userId);
 		return user;
 	}
