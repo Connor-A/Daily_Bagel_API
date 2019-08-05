@@ -8,6 +8,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>dailybagel-api Maven Webapp</name>
 	<url>http://maven.apache.org</url>
+	<repositories>
+		<repository>
+			<id>JBoss repository</id>
+			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -64,6 +70,11 @@
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>3.3.2.GA</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>3.6.3.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
