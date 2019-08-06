@@ -18,7 +18,7 @@ public class UserService {
 	}
 		
 	public List<User> getAllUsers() {
-
+		
 		List<User> list = session.createQuery("from User").list();
 		return list;
 	}
@@ -41,7 +41,6 @@ public class UserService {
 	}
 	
 	public User getUser(int userId) {
-
 		User user = (User) session.get(User.class, userId);
 		return user;
 	}
