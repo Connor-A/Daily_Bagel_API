@@ -38,9 +38,6 @@ public class User implements Serializable{
 	
 	@Column(name = "role", unique = false, nullable = false)
 	public String role;
-	
-	@Column(name = "token", unique = true, nullable = false)
-	public String token;
 		
 	
 	public User(){
