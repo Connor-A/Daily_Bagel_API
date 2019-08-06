@@ -32,8 +32,6 @@ public class ArticleController {
 	public void getAllArticles(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		out.println(gson.toJson(this.as.getAllArticles()));
@@ -52,8 +50,6 @@ public class ArticleController {
 			pageNumber = 0;
 			itemsPerPage = 5;
 		}
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 	    Gson gson = new Gson();
 	    out.println(gson.toJson(this.as.getArticlePage(pageNumber,itemsPerPage)));
@@ -70,8 +66,7 @@ public class ArticleController {
 		{
 			articleCount = 5;
 		}
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
+		
 		PrintWriter out = response.getWriter();
 	    Gson gson = new Gson();
 	    out.println(gson.toJson(this.as.getFeaturedArticles(articleCount)));
@@ -82,8 +77,6 @@ public class ArticleController {
 			throws ServletException, IOException {
 		
 		int userId = Integer.valueOf(request.getParameter("userId"));
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		out.println(gson.toJson(this.as.getArticle(userId)));
