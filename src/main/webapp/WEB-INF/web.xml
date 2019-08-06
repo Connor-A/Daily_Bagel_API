@@ -41,5 +41,9 @@
 			<url-pattern>/updateArticle</url-pattern>
 			<url-pattern>/updateArticleViews</url-pattern>
 			<url-pattern>/updateAritcleAuthor</url-pattern>
+			
+			
+			<url-pattern>/logIn</url-pattern>
+			<url-pattern>isLoggedIn/</url-pattern>
     </servlet-mapping>  
 </web-app>
