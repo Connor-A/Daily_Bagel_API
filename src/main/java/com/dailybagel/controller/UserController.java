@@ -31,7 +31,8 @@ public class UserController {
 	@RequestMapping("/getAllUsers")
 	public void getAllUsers(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, InterruptedException {
-
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		int i = 10;
@@ -39,6 +40,7 @@ public class UserController {
 			try {
 				out.println(gson.toJson(this.us.getAllUsers()));
 			} catch (Throwable e) {
+				System.out.println("Failed to Connect" + e);
 				i--;
 				Thread.sleep(1000);
 				continue;
@@ -59,6 +61,8 @@ public class UserController {
 			pageNumber = 0;
 			itemsPerPage = 5;
 		}
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		out.println(gson.toJson(this.us.getUserPage(pageNumber,itemsPerPage)));
@@ -69,6 +73,8 @@ public class UserController {
 			throws ServletException, IOException {
 
 		int userId = Integer.valueOf(request.getParameter("userId"));
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		out.println(gson.toJson(this.us.getUser(userId)));
@@ -83,7 +89,12 @@ public class UserController {
 		JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
 		User user = gson.fromJson(obj, new User().getClass());
-		us.addUser(user);
+
+		if (us.getUser(user.userId) == null) {
+			us.addUser(user);
+		} else {
+			response.sendError(HttpServletResponse.SC_CONFLICT, "User already exists.");
+		}
 
 	}
 
@@ -96,7 +107,11 @@ public class UserController {
 		JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
 		User user = gson.fromJson(obj, new User().getClass());
-		us.deleteUser(user);
+		if (us.getUser(user.userId) != null) {
+			us.deleteUser(user);
+		} else {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "That user does not exist");
+		}
 	}
 
 	@RequestMapping("/updateUser")
