@@ -31,21 +31,22 @@ public class UserController {
 	@RequestMapping("/getAllUsers")
 	public void getAllUsers(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException, InterruptedException {
-
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		int i = 10;
-		//while (i >= 0) {
-			//try {
+		while (i >= 0) {
+			try {
 				out.println(gson.toJson(this.us.getAllUsers()));
-			//} catch (Throwable e) {
-				//System.out.println("Failed to Connect" + e);
-				//i--;
-				//Thread.sleep(1000);
-				//continue;
-			//}
-			//break;
-		//}
+			} catch (Throwable e) {
+				System.out.println("Failed to Connect" + e);
+				i--;
+				Thread.sleep(1000);
+				continue;
+			}
+			break;
+		}
 	}
 
 	@RequestMapping("/getUserPage")
@@ -60,6 +61,8 @@ public class UserController {
 			pageNumber = 0;
 			itemsPerPage = 5;
 		}
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		out.println(gson.toJson(this.us.getUserPage(pageNumber,itemsPerPage)));
@@ -70,6 +73,8 @@ public class UserController {
 			throws ServletException, IOException {
 
 		int userId = Integer.valueOf(request.getParameter("userId"));
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		out.println(gson.toJson(this.us.getUser(userId)));
