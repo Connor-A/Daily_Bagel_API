@@ -29,11 +29,12 @@ public class AuthService {
 		
 		User u = new User();
 		
-		Query q = session.createQuery("from User u where u.email = :email and u.password = :password");
-		q.setParameter("email", email);
-		q.setParameter("password", password);
+		Query q = session.createQuery("from User u where u.email = :email and u.password = :password")
+				.setParameter("email", email)
+				.setParameter("password", password);
 		
 		@SuppressWarnings("unchecked")
+
 		SecureRandom random = new SecureRandom();
 		byte bytes[] = new byte[20];
 		random.nextBytes(bytes);
