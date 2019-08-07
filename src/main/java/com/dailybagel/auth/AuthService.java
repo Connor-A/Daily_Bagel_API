@@ -27,19 +27,21 @@ public class AuthService {
 		if(email == null || password == null)
 			return null;
 		
-		User u = new User();
-		
 		Query q = session.createQuery("from User u where u.email = ? and u.password = ?")
 				.setParameter(0, email)
 				.setParameter(1, password);
 		
-		@SuppressWarnings("unchecked")
-
 		SecureRandom random = new SecureRandom();
 		byte bytes[] = new byte[20];
 		random.nextBytes(bytes);
 		
-		u = (User) q.list();
+		@SuppressWarnings("unchecked")
+		List<User> list = q.list();
+		
+		if(list.size() != 1)
+			return null;
+		
+		User u = (User) list.get(0);
 		u.token = bytes.toString() + email;
 		
 		Transaction tx = session.beginTransaction();
