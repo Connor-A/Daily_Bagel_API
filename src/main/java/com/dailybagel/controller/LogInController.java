@@ -45,17 +45,7 @@ public class LogInController {
 		}
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
-		int i = 10;
-		while (i >= 0) {
-			try {
-				out.println(gson.toJson(this.as.login(email, password)));
-			} catch (Throwable e) {
-				i--;
-				Thread.sleep(1000);
-				continue;
-			}
-			break;
-		}
+		out.println(gson.toJson(this.as.login(email, password)));
 	}
 
 	@RequestMapping("/isLoggedIn")
