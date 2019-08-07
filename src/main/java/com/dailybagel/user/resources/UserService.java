@@ -45,8 +45,10 @@ public class UserService {
 		return user;
 	}
 	
-	public User getUser(String email) {
-		User user = (User) session.createQuery("from User as u where u.email = :email").setParameter("email", email).uniqueResult();
+	public User getUser(String token) {
+		User user = (User) session
+				.createQuery("from User as u where u.token = :token")
+				.setParameter("token", token).uniqueResult();
 		return user;
 	}
 	
@@ -54,7 +56,7 @@ public class UserService {
 		Transaction tx = session.beginTransaction();
 		session.save(user);
 		tx.commit();
-		session.flush();
+		//session.flush();
 	}
 	
 	public void deleteUser(User user) {

@@ -95,11 +95,11 @@ public class UserController {
 			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not respond");
 			return;
 		}
-		//if (us.getUser(user.email) == null) {
+		if (us.getUser(user.token) == null) {
 			us.addUser(user);
-		//} else {
-			//response.sendError(HttpServletResponse.SC_CONFLICT, "User already exists.");
-		//}
+		} else {
+			response.sendError(HttpServletResponse.SC_CONFLICT, "User already exists.");
+		}
 
 	}
 
