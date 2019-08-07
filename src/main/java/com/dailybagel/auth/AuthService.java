@@ -39,7 +39,7 @@ public class AuthService {
 		byte bytes[] = new byte[20];
 		random.nextBytes(bytes);
 		
-		u = (User) q;
+		u = (User) q.list();
 		u.token = bytes.toString() + email;
 		
 		Transaction tx = session.beginTransaction();
