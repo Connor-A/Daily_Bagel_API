@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.dailybagel.DatabaseHandler.*;
 
 @CrossOrigin
 @Controller
@@ -35,23 +36,16 @@ public class UserController {
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
-		int i = 10;
-		while (i >= 0) {
-			try {
-				out.println(gson.toJson(this.us.getAllUsers()));
-			} catch (Throwable e) {
-				System.out.println("Failed to Connect" + e);
-				i--;
-				Thread.sleep(1000);
-				continue;
-			}
-			break;
+		if (DBHandler.testDBConnection()) {
+			out.println(gson.toJson(this.us.getAllUsers()));
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not response");
 		}
 	}
 
 	@RequestMapping("/getUserPage")
 	public void getUserPage(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, InterruptedException {
 		int pageNumber;
 		int itemsPerPage;
 		try {
@@ -65,48 +59,63 @@ public class UserController {
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
-		out.println(gson.toJson(this.us.getUserPage(pageNumber,itemsPerPage)));
+		if (DBHandler.testDBConnection()) {
+			out.println(gson.toJson(this.us.getUserPage(pageNumber,itemsPerPage)));
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not response");
+		}
 	}
 
 	@RequestMapping("/getUser")
 	public void getUser(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, InterruptedException {
 
 		int userId = Integer.valueOf(request.getParameter("userId"));
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
-		out.println(gson.toJson(this.us.getUser(userId)));
+		if (DBHandler.testDBConnection()) {
+			out.println(gson.toJson(this.us.getUser(userId)));
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not response");
+		}
 	}
 
 	@RequestMapping("/addUser")
 	public void addUser(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, InterruptedException {
 
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
 		User user = gson.fromJson(obj, new User().getClass());
-
-		if (us.getUser(user.userId) == null) {
-			us.addUser(user);
-		} else {
-			response.sendError(HttpServletResponse.SC_CONFLICT, "User already exists.");
+		if (!DBHandler.testDBConnection()) {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not respond");
+			return;
 		}
+		//if (us.getUser(user.email) == null) {
+			us.addUser(user);
+		//} else {
+			//response.sendError(HttpServletResponse.SC_CONFLICT, "User already exists.");
+		//}
 
 	}
 
 	@RequestMapping("/deleteUser")
 	public void deleteUser(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, InterruptedException {
 
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
 		User user = gson.fromJson(obj, new User().getClass());
+		if (!DBHandler.testDBConnection()) {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not respond");
+			return;
+		}
 		if (us.getUser(user.userId) != null) {
 			us.deleteUser(user);
 		} else {
@@ -116,38 +125,68 @@ public class UserController {
 
 	@RequestMapping("/updateUser")
 	public void updateUser(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, InterruptedException {
 
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
 		User user = gson.fromJson(obj, new User().getClass());
-		us.updateUser(user);
+		
+		if (!DBHandler.testDBConnection()) {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not respond");
+			return;
+		}
+		if (us.getUser(user.userId) != null) {
+			us.updateUser(user);
+		} else {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "That user does not exist");
+		}
+		
+		
+		
 	}
 
 	@RequestMapping("/updateUserPassword")
 	public void updateUserPassword(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, InterruptedException {
 
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
 		User user = gson.fromJson(obj, new User().getClass());
-		us.updateUserPassword(user);
+		if (!DBHandler.testDBConnection()) {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not respond");
+			return;
+		}
+		if (us.getUser(user.userId) != null) {
+			us.updateUserPassword(user);
+		} else {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "That user does not exist");
+		}
+	
 	}
 
 	@RequestMapping("/updateUserRole")
 	public void updateUserRole(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, InterruptedException {
 
 		Gson gson = new Gson();
 		JsonParser parser = new JsonParser();
 		JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
 		User user = gson.fromJson(obj, new User().getClass());
-		us.updateUserRole(user);
+		if (!DBHandler.testDBConnection()) {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not respond");
+			return;
+		}
+		if (us.getUser(user.userId) != null) {
+			us.updateUserRole(user);
+		} else {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "That user does not exist");
+		}
+		
 	}
 
 }
