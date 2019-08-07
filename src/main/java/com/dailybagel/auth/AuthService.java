@@ -46,8 +46,8 @@ public class AuthService {
 		
 		Transaction tx = session.beginTransaction();
 		session.save(u);
-		u.password = "";
 	    tx.commit();
+		u.password = "";
 		
 		return u;
 	}
