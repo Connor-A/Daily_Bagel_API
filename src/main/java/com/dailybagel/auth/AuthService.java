@@ -29,9 +29,9 @@ public class AuthService {
 		
 		User u = new User();
 		
-		Query q = session.createQuery("from User u where u.email = :email and u.password = :password")
-				.setParameter("email", email)
-				.setParameter("password", password);
+		Query q = session.createQuery("from User u where u.email = ? and u.password = ?")
+				.setParameter(0, email)
+				.setParameter(1, password);
 		
 		@SuppressWarnings("unchecked")
 
