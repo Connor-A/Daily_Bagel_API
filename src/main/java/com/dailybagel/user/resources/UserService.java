@@ -51,7 +51,12 @@ public class UserService {
 		User user = (User) session.get(User.class, userId);
 		return user;
 	}
-
+	
+	public User getUser(String email) {
+		User user = (User) session.createQuery("from User as u where u.email = :email").setParameter("email", email).uniqueResult();
+		return user;
+	}
+	
 	public void addUser(User user) {
 		try {
 			user.password = Password.getSaltedHash(user.password);
