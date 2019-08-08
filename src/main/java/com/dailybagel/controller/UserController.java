@@ -48,7 +48,7 @@ public class UserController {
 			out.println(gson.toJson(us.getAllUsers()));
 		} else {
 			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
-					"Database did not response");
+					"Database did not respond");
 		}
 	}
 
@@ -86,7 +86,7 @@ public class UserController {
 			out.println(gson.toJson(us.getUserPage(pageNumber,itemsPerPage)));
 		} else {
 			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
-					"Database did not response");
+					"Database did not respond");
 		}
 	}
 
@@ -118,7 +118,7 @@ public class UserController {
 			out.println(gson.toJson(us.getUser(userId)));
 		} else {
 			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
-					"Database did not response");
+					"Database did not respond");
 		}
 	}
 
