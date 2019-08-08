@@ -114,9 +114,9 @@ public class ArticleController {
 			HttpServletRequest request, HttpServletResponse response) 
 					throws ServletException, IOException, InterruptedException {
 
-		int userId;
+		int articleId;
 		try {
-			userId = Integer.valueOf(request.getParameter("userId"));
+			articleId = Integer.valueOf(request.getParameter("articleId"));
 		} catch (NumberFormatException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
 					"Parameter 'userId' is not formatted correctly");
@@ -130,7 +130,7 @@ public class ArticleController {
 		Gson gson = new Gson();
 
 		if (DBHandler.testDBConnection()) {
-			out.println(gson.toJson(this.as.getArticle(userId)));
+			out.println(gson.toJson(this.as.getArticle(articleId)));
 		} else {
 			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
 					"Database did not respond");
