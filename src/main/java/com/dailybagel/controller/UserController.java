@@ -82,12 +82,12 @@ public class UserController {
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
 		
-		if (DBHandler.testDBConnection()) {
+		//if (DBHandler.testDBConnection()) {
 			out.println(gson.toJson(us.getUserPage(pageNumber,itemsPerPage)));
-		} else {
+		/*} else {
 			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
 					"Database did not response");
-		}
+		}*/
 	}
 
 	@RequestMapping("/getUser")
