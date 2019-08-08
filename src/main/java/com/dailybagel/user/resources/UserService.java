@@ -45,10 +45,10 @@ public class UserService {
 		return user;
 	}
 	
-	public User getUser(String token) {
+	public User getUser(String email) {
 		User user = (User) session
-				.createQuery("from User as u where u.token = :token")
-				.setParameter("token", token).uniqueResult();
+				.createQuery("from User as u where u.email = :email")
+				.setParameter("email", email).uniqueResult();
 		return user;
 	}
 	

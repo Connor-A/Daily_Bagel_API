@@ -46,5 +46,4 @@ try:
     main()
 except urllib2.HTTPError as e:
     error = e.read()
-    reason = e.reason()
     print(error)
