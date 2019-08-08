@@ -46,7 +46,9 @@ public class UserService {
 	}
 	
 	public User getUser(String email) {
-		User user = (User) session.createQuery("from User as u where u.email = :email").setParameter("email", email).uniqueResult();
+		User user = (User) session
+				.createQuery("from User as u where u.email = :email")
+				.setParameter("email", email).uniqueResult();
 		return user;
 	}
 	
@@ -54,7 +56,7 @@ public class UserService {
 		Transaction tx = session.beginTransaction();
 		session.save(user);
 		tx.commit();
-		session.flush();
+		//session.flush();
 	}
 	
 	public void deleteUser(User user) {
