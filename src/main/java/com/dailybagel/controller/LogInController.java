@@ -4,6 +4,7 @@ package com.dailybagel.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import com.dailybagel.DatabaseHandler.DBHandler;
 import com.dailybagel.auth.AuthService;
 import com.dailybagel.user.resources.User;
 import com.dailybagel.user.resources.UserService;
@@ -45,12 +46,18 @@ public class LogInController {
 		}
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
-		out.println(gson.toJson(this.as.login(email, password)));
+		
+		if (DBHandler.testDBConnection()) {
+			out.println(gson.toJson(this.as.login(email, password)));
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not response");
+		}
+		
 	}
 
 	@RequestMapping("/isLoggedIn")
 	public void getUserPage(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+			throws ServletException, IOException, InterruptedException {
 		String token;
 		try {
 			token = String.valueOf(request.getParameter("token"));
@@ -59,7 +66,12 @@ public class LogInController {
 		}
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
-		out.println(gson.toJson(this.as.testToken(token)));
+		if (DBHandler.testDBConnection()) {
+			out.println(gson.toJson(this.as.testToken(token)));			
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, "Database did not response");
+		}
+		
 	}
 }
 

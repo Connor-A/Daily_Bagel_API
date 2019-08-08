@@ -39,7 +39,7 @@ public class User implements Serializable{
 	@Column(name = "role", unique = false, nullable = false)
 	public String role;
 	
-	@Column(name = "token", unique = true, nullable = false)
+	@Column(name = "token", unique = true, nullable = true)
 	public String token;
 		
 	

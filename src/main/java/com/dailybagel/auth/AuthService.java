@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.dailybagel.DatabaseHandler.DBHandler;
+import com.dailybagel.password.Password;
 import com.dailybagel.user.resources.User;
 import com.dailybagel.user.resources.UserModelView;
 import com.google.gson.JsonElement;
@@ -27,13 +28,8 @@ public class AuthService {
 		if(email == null || password == null)
 			return null;
 		
-		Query q = session.createQuery("from User u where u.email = ? and u.password = ?")
-				.setParameter(0, email)
-				.setParameter(1, password);
-		
-		SecureRandom random = new SecureRandom();
-		byte bytes[] = new byte[20];
-		random.nextBytes(bytes);
+		Query q = session.createQuery("from User u where u.email = ?")
+				.setParameter(0, email);
 		
 		@SuppressWarnings("unchecked")
 		List<User> list = q.list();
@@ -42,14 +38,29 @@ public class AuthService {
 			return null;
 		
 		User u = (User) list.get(0);
-		u.token = bytes.toString() + email;
 		
-		Transaction tx = session.beginTransaction();
-		session.save(u);
-	    tx.commit();
-		u.password = "";
+		try {
+			if(Password.check(password, u.password))
+			{
+				SecureRandom random = new SecureRandom();
+				byte bytes[] = new byte[20];
+				random.nextBytes(bytes);
+				
+				u.token = bytes.toString() + email;
+				
+				Transaction tx = session.beginTransaction();
+				session.save(u);
+			    tx.commit();
+				u.password = "";
+				
+				return u;
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
-		return u;
+		return null;
 	}
 
 
