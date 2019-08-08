@@ -1,12 +1,19 @@
 package com.dailybagel.user.resources;
 
+import java.security.SecureRandom;
 import java.util.List;
 
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
+
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.dailybagel.DatabaseHandler.DBHandler;
+import com.dailybagel.password.Password;
 
 
 
@@ -53,6 +60,13 @@ public class UserService {
 	}
 	
 	public void addUser(User user) {
+		try {
+			user.password = Password.getSaltedHash(user.password);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
 		Transaction tx = session.beginTransaction();
 		session.save(user);
 		tx.commit();
@@ -86,7 +100,13 @@ public class UserService {
 		User u = (User)session.load(User.class, user.userId);
 		if (u != null) {
 			Transaction tx = session.beginTransaction();
-			u.password = user.password;
+			
+			try {
+				u.password = Password.getSaltedHash(user.password);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			session.save(u);
 		    tx.commit();
 		}
@@ -103,6 +123,4 @@ public class UserService {
 		}
 		session.flush();
 	}
-	
-	
 }
