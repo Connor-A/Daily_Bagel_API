@@ -56,7 +56,7 @@ public class UserService {
 		return uvm;
 	}
 	
-	public User getUser(int userId) {
+	public User getUser(long userId) {
 		User user = (User) session.get(User.class, userId);
 		user.password = "";
 		user.token = "";

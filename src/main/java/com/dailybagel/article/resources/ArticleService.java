@@ -46,7 +46,7 @@ public class ArticleService {
 		return q.list();
 	}
 	
-	public Article getArticle(int articleId) {
+	public Article getArticle(long articleId) {
 		Article Article = (Article) session.get(Article.class, articleId);
 		return Article;
 	}
