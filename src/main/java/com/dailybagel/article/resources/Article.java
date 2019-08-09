@@ -37,7 +37,7 @@ public class Article implements Serializable{
 	public int views;
 	
 	@Column(name = "authorId", unique = false, nullable = false)
-	public String authorId;
+	public int authorId;
 		
 	
 	public Article(){
