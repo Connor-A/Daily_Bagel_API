@@ -70,7 +70,7 @@ public class AuthService {
 		
 		User u = new User();
 		
-		u = (User)session.createQuery("from User u where u.token = " + token);
+		u = (User)session.createQuery("from User u where u.token = ?").setParameter(0, token);
 		u.password = "";
 		return u;
 	}
