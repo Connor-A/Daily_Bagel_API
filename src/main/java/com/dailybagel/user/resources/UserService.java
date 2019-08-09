@@ -27,6 +27,11 @@ public class UserService {
 	public List<User> getAllUsers() {
 		
 		List<User> list = session.createQuery("from User").list();
+		for (User u : list) {
+			u.password = "";
+			u.token = "";
+		}
+		
 		return list;
 	}
 	
@@ -41,6 +46,10 @@ public class UserService {
 		int temp = session.createQuery("from User").list().size();
 		temp = temp % itemsPerPage == 0 ? temp/itemsPerPage - 1: temp/itemsPerPage;
 		
+		for (User u : uvm.users) {
+			u.password = "";
+			u.token = "";
+		}
 		
 		uvm.maxPageSize = temp;
 		
@@ -49,6 +58,8 @@ public class UserService {
 	
 	public User getUser(int userId) {
 		User user = (User) session.get(User.class, userId);
+		user.password = "";
+		user.token = "";
 		return user;
 	}
 	
@@ -56,6 +67,8 @@ public class UserService {
 		User user = (User) session
 				.createQuery("from User as u where u.email = :email")
 				.setParameter("email", email).uniqueResult();
+		user.password = "";
+		user.token = "";
 		return user;
 	}
 	

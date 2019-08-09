@@ -4,6 +4,7 @@ package com.dailybagel.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import com.dailybagel.DatabaseHandler.DBHandler;
 import com.dailybagel.article.resources.Article;
 import com.dailybagel.article.resources.ArticleService;
 import com.google.gson.Gson;
@@ -22,133 +23,249 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @CrossOrigin
 @Controller
 public class ArticleController {
+
 	ArticleService as;
-	
+
 	public ArticleController() {
 		as = new ArticleService();
 	}
 
 	@RequestMapping("/getAllArticles")
-	public void getAllArticles(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		
+	public void getAllArticles(
+			HttpServletRequest request, HttpServletResponse response)
+					throws ServletException, IOException, InterruptedException {
+
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
+
 		PrintWriter out = response.getWriter();
 		Gson gson = new Gson();
-		out.println(gson.toJson(this.as.getAllArticles()));
+		if (DBHandler.testDBConnection()) {
+			out.println(gson.toJson(as.getAllArticles()));
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
+					"Database did not respond");
+		}
 	}
-	
+
 	@RequestMapping("/getArticlePage")
-	public void getArticlePage(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+	public void getArticlePage(
+			HttpServletRequest request, HttpServletResponse response) 
+					throws ServletException, IOException, InterruptedException {
 
 		int pageNumber;
 		int itemsPerPage;
+
 		try {
-			 pageNumber = Integer.valueOf(request.getParameter("pageNumber"));
-			 itemsPerPage = Integer.valueOf(request.getParameter("itemsPerPage"));
+			pageNumber = Integer.valueOf(
+					request.getParameter("pageNumber"));
+			itemsPerPage = Integer.valueOf(
+					request.getParameter("itemsPerPage"));
 		} catch (NumberFormatException e) {
 			pageNumber = 0;
 			itemsPerPage = 5;
 		}
+
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
+
 		PrintWriter out = response.getWriter();
-	    Gson gson = new Gson();
-	    out.println(gson.toJson(this.as.getArticlePage(pageNumber,itemsPerPage)));
+		Gson gson = new Gson();
+
+		if (DBHandler.testDBConnection()) {
+			out.println(gson.toJson(
+					as.getArticlePage(pageNumber,itemsPerPage)));
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
+					"Database did not respond");
+		}
 	}
-	
+
 	@RequestMapping("/getFeaturedArticles")
-	public void getFeaturedArticles(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
+	public void getFeaturedArticles(
+			HttpServletRequest request, HttpServletResponse response) 
+					throws ServletException, IOException, InterruptedException {
 
 		int articleCount;
+
 		try {
-			articleCount = Integer.valueOf(request.getParameter("articleCount"));
-		} catch (NumberFormatException e)
-		{
+			articleCount = Integer.valueOf(
+					request.getParameter("articleCount"));
+		} catch (NumberFormatException e) {
 			articleCount = 5;
 		}
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-	    Gson gson = new Gson();
-	    out.println(gson.toJson(this.as.getFeaturedArticles(articleCount)));
-	}
-	
-	@RequestMapping("/getArticle")
-	public void getArticle(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		
-		int userId = Integer.valueOf(request.getParameter("userId"));
-		response.setContentType("application/json");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		Gson gson = new Gson();
-		out.println(gson.toJson(this.as.getArticle(userId)));
-	}
-		
-	@RequestMapping("/addArticle")
-	public void addArticle(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		   
-		Gson gson = new Gson();
-	    JsonParser parser = new JsonParser();
-	    JsonObject obj = (JsonObject) parser.parse(request.getReader());
-	        
-	    Article article = gson.fromJson(obj, new Article().getClass());
-	    as.addArticle(article);
-	    
-	}
-	
-	@RequestMapping("/deleteArticle")
-	public void deleteArticle(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		   
-		Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        JsonObject obj = (JsonObject) parser.parse(request.getReader());
-        
-        Article article = gson.fromJson(obj, new Article().getClass());
-        as.deleteArticle(article);
-	}
-	
-	@RequestMapping("/updateArticle")
-	public void updateArticle(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		   
-		Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        JsonObject obj = (JsonObject) parser.parse(request.getReader());
 
-        Article article = gson.fromJson(obj, new Article().getClass());
-        as.updateArticle(article);
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+
+		PrintWriter out = response.getWriter();
+		Gson gson = new Gson();
+
+		if (DBHandler.testDBConnection()) {
+			out.println(gson.toJson(as.getFeaturedArticles(articleCount)));
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
+					"Database did not respond");
+		}
+	}
+
+	@RequestMapping("/getArticle")
+	public void getArticle(
+			HttpServletRequest request, HttpServletResponse response) 
+					throws ServletException, IOException, InterruptedException {
+
+		int articleId;
+		try {
+			articleId = Integer.valueOf(request.getParameter("articleId"));
+		} catch (NumberFormatException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
+					"Parameter 'userId' was not passed or "
+					+ "is not formatted correctly");
+			return;
+		}
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+
+		PrintWriter out = response.getWriter();
+		Gson gson = new Gson();
+
+		if (DBHandler.testDBConnection()) {
+			out.println(gson.toJson(this.as.getArticle(articleId)));
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
+					"Database did not respond");
+		}
+	}
+
+	@RequestMapping("/addArticle")
+	public void addArticle(
+			HttpServletRequest request, HttpServletResponse response) 
+					throws ServletException, IOException, InterruptedException {
+
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		Article article;
+
+		try {
+			JsonObject obj = (JsonObject) parser.parse(request.getReader());
+			article = gson.fromJson(obj, new Article().getClass());
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
+					"Data received was incomplete or incorrectly formatted");
+			return;
+		}
+
+		if (DBHandler.testDBConnection()) {
+			as.addArticle(article);
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
+					"Database did not respond");
+		}
+	}
+
+	@RequestMapping("/deleteArticle")
+	public void deleteArticle(
+			HttpServletRequest request, HttpServletResponse response) 
+					throws ServletException, IOException, InterruptedException {
+
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		Article article;
+
+		try {
+			JsonObject obj = (JsonObject) parser.parse(request.getReader());
+			article = gson.fromJson(obj, new Article().getClass());
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
+					"Data received was incomplete or incorrectly formatted");
+			return;
+		}
+
+		if (DBHandler.testDBConnection()) {
+			as.deleteArticle(article);
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
+					"Database did not respond");
+		}
+	}
+
+	@RequestMapping("/updateArticle")
+	public void updateArticle(
+			HttpServletRequest request, HttpServletResponse response) 
+					throws ServletException, IOException, InterruptedException {
+
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		Article article;
+
+		try {
+			JsonObject obj = (JsonObject) parser.parse(request.getReader());
+			article = gson.fromJson(obj, new Article().getClass());
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
+					"Data received was incomplete or incorrectly formatted");
+			return;
+		}
+
+		if (DBHandler.testDBConnection()) {
+			as.updateArticle(article);
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
+					"Database did not respond");
+		}
 	}
 
 	@RequestMapping("/updateArticleViews")
-	public void updateArticleViews(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		   
-		Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        JsonObject obj = (JsonObject) parser.parse(request.getReader());
+	public void updateArticleViews(
+			HttpServletRequest request, HttpServletResponse response) 
+					throws ServletException, IOException, InterruptedException {
 
-        Article article = gson.fromJson(obj, new Article().getClass());
-        as.updateArticleViews(article);
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		Article article;
+
+		try {
+			JsonObject obj = (JsonObject) parser.parse(request.getReader());
+
+			article = gson.fromJson(obj, new Article().getClass());
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
+					"Data received was incomplete or incorrectly formatted");
+			return;
+		}
+
+		if (DBHandler.testDBConnection()) {
+			as.updateArticleViews(article);
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
+					"Database did not respond");
+		}
 	}
-	
+
 	@RequestMapping("/updateArticleAuthor")
-	public void updateArticleAuthor(HttpServletRequest request, HttpServletResponse response) 
-			throws ServletException, IOException {
-		   
+	public void updateArticleAuthor(
+			HttpServletRequest request, HttpServletResponse response) 
+					throws ServletException, IOException, InterruptedException {
+
 		Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        JsonObject obj = (JsonObject) parser.parse(request.getReader());
+		JsonParser parser = new JsonParser();
+		Article article;
 
-        Article article = gson.fromJson(obj, new Article().getClass());
-        as.updateArticleAuthor(article);
+		try {
+			JsonObject obj = (JsonObject) parser.parse(request.getReader());
+			article = gson.fromJson(obj, new Article().getClass());
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
+					"Data received was incomplete or incorrectly formatted");
+			return;
+		}
+
+		if (DBHandler.testDBConnection()) {
+			as.updateArticleAuthor(article);
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
+					"Database did not respond");
+		}
 	}
-	
 }
-
