@@ -72,7 +72,7 @@ public class ArticleService {
 		Article a = (Article)session.load(Article.class, article.articleId);
 		if (a != null) {
 			Transaction tx = session.beginTransaction();
-			a.name = article.name;
+			a.title = article.title;
 			a.content = article.content;
 			a.featuredRank = article.featuredRank;
 			session.save(a);

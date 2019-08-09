@@ -24,8 +24,8 @@ public class Article implements Serializable{
     @Column(name = "articleId", unique = true, nullable = false)
 	public int articleId;
 	
-	@Column(name = "name", unique = false, nullable = false)
-	public String name;
+	@Column(name = "title", unique = false, nullable = false)
+	public String title;
 	
 	@Column(name = "content", unique = false, nullable = false)
 	public String content;
