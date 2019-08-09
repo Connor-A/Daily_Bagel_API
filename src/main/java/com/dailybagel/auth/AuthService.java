@@ -68,11 +68,14 @@ public class AuthService {
 		if(token == null)
 			return null;
 		
-		User u = new User();
-		
-		u = (User)session.createQuery("from User u where u.token = ?").setParameter(0, token);
-		u.password = "";
-		return u;
+		List<User> userList = session.createQuery("from User u where u.token = ?").setParameter(0, token).list();
+		if(userList.size() != 1)
+			return null;
+		else {
+			User u = userList.get(0);
+			u.password = "";
+			return u;
+		}
 	}
 	
 	}
