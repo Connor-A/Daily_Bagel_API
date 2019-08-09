@@ -20,9 +20,9 @@ public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "userId", unique = true, nullable = false)
-	public int userId;
+	public long userId;
 	
 	@Column(name = "firstName", unique = false, nullable = false)
 	public String firstName;

@@ -20,9 +20,9 @@ public class Article implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "articleId", unique = true, nullable = false)
-	public int articleId;
+	public long articleId;
 	
 	@Column(name = "title", unique = false, nullable = false)
 	public String title;
@@ -37,7 +37,7 @@ public class Article implements Serializable{
 	public int views;
 	
 	@Column(name = "authorId", unique = false, nullable = false)
-	public int authorId;
+	public long authorId;
 		
 	
 	public Article(){
