@@ -36,6 +36,7 @@ public class DBHandler
     		try {
     			session.createSQLQuery("SELECT 1").uniqueResult();
     		} catch (Throwable e) { 
+    			e.printStackTrace();
     			Thread.sleep(1000);
     			continue;
     		}
