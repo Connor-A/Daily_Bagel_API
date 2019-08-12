@@ -138,6 +138,36 @@ public class ArticleController {
 		}
 	}
 
+	@RequestMapping("/getArticleByAuthor")
+	public void getArticleByAuthor(
+			HttpServletRequest request, HttpServletResponse response) 
+					throws ServletException, IOException, InterruptedException {
+
+		int authorId;
+		try {
+			authorId = Integer.valueOf(request.getParameter("authorId"));
+		} catch (NumberFormatException e) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
+					"Parameter 'userId' was not passed or "
+					+ "is not formatted correctly");
+			return;
+		}
+
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+
+		PrintWriter out = response.getWriter();
+		Gson gson = new Gson();
+
+		if (DBHandler.testDBConnection()) {
+			out.println(gson.toJson(this.as.getArticleByAuthor(authorId)));
+		} else {
+			response.sendError(HttpServletResponse.SC_GATEWAY_TIMEOUT, 
+					"Database did not respond");
+		}
+	}
+
+	
 	@RequestMapping("/addArticle")
 	public void addArticle(
 			HttpServletRequest request, HttpServletResponse response) 
@@ -268,4 +298,6 @@ public class ArticleController {
 					"Database did not respond");
 		}
 	}
+	
+	
 }

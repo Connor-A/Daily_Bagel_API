@@ -47,10 +47,17 @@ public class ArticleService {
 	}
 	
 	public Article getArticle(long articleId) {
-		Article Article = (Article) session.get(Article.class, articleId);
-		return Article;
+		Article article = (Article) session.get(Article.class, articleId);
+		return article;
 	}
 
+	public List<Article> getArticleByAuthor(long authorId) {
+		List<Article> articleList = session.createQuery("from Article where authorID = ?")
+											.setParameter(0, authorId)
+											.list();
+		return articleList;
+	}
+	
 	public void addArticle(Article Article) {
 		Transaction tx = session.beginTransaction();
 		session.save(Article);

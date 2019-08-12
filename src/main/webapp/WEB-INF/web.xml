@@ -36,6 +36,7 @@
 			<url-pattern>/getArticlePage</url-pattern>
 			<url-pattern>/getFeaturedArticles</url-pattern>
 			<url-pattern>/getArticle</url-pattern>
+			<url-pattern>/getArticleByAuthor</url-pattern>
 			<url-pattern>/addArticle</url-pattern>
 			<url-pattern>/deleteArticle</url-pattern>
 			<url-pattern>/updateArticle</url-pattern>
