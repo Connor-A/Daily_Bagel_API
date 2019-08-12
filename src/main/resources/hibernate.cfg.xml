@@ -2,16 +2,23 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
                                          "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
- <session-factory>
-  <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-  <property name="hibernate.connection.url">jdbc:mysql://mysql5021.site4now.net/db_a4c261_dbagel?autoReconnect=true</property>
-  <property name="hibernate.connection.password">turtledove33 </property>
-  <property name="hibernate.connection.username">a4c261_dbagel</property>
-  <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
-  <property name="show_sql">true</property>
-  <property name="hbm2ddl.auto">update</property>
- 
-  <mapping class="com.dailybagel.user.resources.User"/>
-  <mapping class="com.dailybagel.article.resources.Article"/>
- </session-factory>
+	<session-factory>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+		<property name="hibernate.connection.url">jdbc:mysql://mysql5021.site4now.net/db_a4c261_dbagel?autoReconnect=true</property>
+		<property name="hibernate.connection.password">turtledove33 </property>
+		<property name="hibernate.connection.username">a4c261_dbagel</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+		<property name="show_sql">true</property>
+		<property name="hbm2ddl.auto">update</property>
+
+		<property name="hibernate.c3p0.min_size">5</property>
+		<property name="hibernate.c3p0.max_size">20</property>
+		<property name="hibernate.c3p0.timeout">300</property>
+		<property name="hibernate.c3p0.max_statements">50</property>
+		<property name="hibernate.c3p0.idle_test_period">3000</property>
+
+
+		<mapping class="com.dailybagel.user.resources.User" />
+		<mapping class="com.dailybagel.article.resources.Article" />
+	</session-factory>
 </hibernate-configuration>
