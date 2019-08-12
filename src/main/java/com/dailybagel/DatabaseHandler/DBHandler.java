@@ -30,7 +30,7 @@ public class DBHandler
     
     public static boolean testDBConnection() throws InterruptedException, IOException {
     	Session session = sessionFactory.openSession();
-    	int numTries = 10;
+    	int numTries = 15;
     	
     	for (int i = 0; i < numTries; i++) {
     		try {
