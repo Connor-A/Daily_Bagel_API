@@ -4,9 +4,9 @@
 <hibernate-configuration>
  <session-factory>
   <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-  <property name="hibernate.connection.url">jdbc:mysql://us-cdbr-iron-east-02.cleardb.net/heroku_d80dc7ab129a7ce?autoReconnect=true</property>
-  <property name="hibernate.connection.password">de7ce257 </property>
-  <property name="hibernate.connection.username">baaa95d23db726</property>
+  <property name="hibernate.connection.url">jdbc:mysql://mysql5021.site4now.net/db_a4c261_dbagel?autoReconnect=true</property>
+  <property name="hibernate.connection.password">turtledove33 </property>
+  <property name="hibernate.connection.username">a4c261_dbagel</property>
   <property name="hibernate.dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
   <property name="show_sql">true</property>
   <property name="hbm2ddl.auto">update</property>

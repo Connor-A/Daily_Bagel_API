@@ -119,7 +119,7 @@ public class ArticleController {
 			articleId = Integer.valueOf(request.getParameter("articleId"));
 		} catch (NumberFormatException e) {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, 
-					"Parameter 'userId' was not passed or "
+					"Parameter 'articleId' was not passed or "
 					+ "is not formatted correctly");
 			return;
 		}
